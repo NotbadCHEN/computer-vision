@@ -1,0 +1,20 @@
+import cv2
+cat=cv2.imread("a.jfif",2)
+little=cv2.imread("b.jpeg",4)
+cv2.namedWindow("win")
+cv2.imshow("win",cat)
+flag=0
+while True:
+    key=cv2.waitKey(0)
+    if key==32:
+        if flag==0:
+            cv2.imshow("win",little)
+            flag=1
+        elif flag==1:
+            cv2.imshow("win",cat)
+            flag=0
+    if key==27:
+        cv2.destroyAllWindow()
+        break
+
+#空格切换 Esc退出
