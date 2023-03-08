@@ -1,0 +1,30 @@
+import cv2
+import time
+#打开摄像头
+cap=cv2.VideoCapture(0)
+time.sleep(2)
+print(cap.isOpened())
+
+cap.set(cv2.CAP_PROP_FRAME_WIDTH,1200) #长宽（分辨率）
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT,800)#长宽（分辨率）
+
+#构建视频窗口
+cv2.namedWindow('image_win',flags=cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
+
+#读取摄像头图像
+ret,frame=cap.read()
+
+#更新窗口“image_win”中的图片
+cv2.imshow('image_win',frame)
+
+#等待按键事件发生 等待200ms
+cv2.waitKey(200)
+
+#保存图片
+cv2.imwrite('新保存图片.png',frame)
+
+#释放VideoCapture
+cap.release()
+
+#销毁所有窗口
+cv2.destroyAllWindows()
