@@ -1,0 +1,52 @@
+import threading
+import time
+
+import cv2  # 引入opencv库函数
+
+
+class videoThread(threading.Thread):
+    def __init__(self):
+        super(videoThread, self).__init__()
+        self.working = True  # 循环标志位
+        self.cap=cv2.VideoCapture(0)  # 打开摄像头
+
+        if not self.cap.isOpened():
+            print("Cannot open camera")
+        else:
+            print('摄像头已打开')
+        # 画面宽度设定为 1920   高度度设定为 1080
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH,1920)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT,1080)
+
+    def run(self):
+        # 构建视频的窗口
+        cv2.namedWindow('image_win',cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
+        cv2.resizeWindow('image_win',1920,1080)
+
+        while self.working:
+            # 读取摄像头图像
+            ret, frame = self.cap.read()
+            if not ret:
+                print("图像获取失败，请按照说明进行问题排查")
+                break
+
+            # 更新窗口“image_win”中的图片
+            cv2.imshow('image_win', frame)
+
+            # 等待按键事件发生 等待1ms
+            key = cv2.waitKey(1)
+
+    def stop(self):
+        if self.working:
+            self.working = False
+            # 释放VideoCapture
+            self.cap.release()
+            # 销毁所有的窗口
+            cv2.destroyAllWindows()
+            print("退出线程")
+
+
+# a = videoThread()
+# a.start()
+# time.sleep(10)
+# a.stop()
